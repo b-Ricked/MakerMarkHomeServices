@@ -13,25 +13,25 @@
   document.addEventListener('DOMContentLoaded', () => {
   if (typeof SITE_CONFIG === 'undefined') return;
 
-  // Phone
+  // Update Phone
   document.querySelectorAll('.config-phone').forEach(el => {
     if (!SITE_CONFIG.phone) return;
-    el.textContent = SITE_CONFIG.phone;
+    el.textContent = SITE_CONFIG.phone; // Inserts the text on screen
     if (el.tagName === 'A') {
       el.href = `tel:${SITE_CONFIG.phone.replace(/\D/g, '')}`;
     }
   });
 
-  // Email
+  // Update Email
   document.querySelectorAll('.config-email').forEach(el => {
     if (!SITE_CONFIG.email) return;
-    el.textContent = SITE_CONFIG.email;
+    el.textContent = SITE_CONFIG.email; // Inserts the text on screen
     if (el.tagName === 'A') {
       el.href = `mailto:${SITE_CONFIG.email}`;
     }
   });
 
-  // Hours
+  // Update Hours
   document.querySelectorAll('.config-hours').forEach(el => {
     if (SITE_CONFIG.hours) {
       el.textContent = SITE_CONFIG.hours;
@@ -422,9 +422,9 @@
         <div class="hero-contact-strip">
             <p>Text or email with pictures or questions to:</p>
             <div class="hero-contact-links">
-                <a href="#" class="config-phone"></a>
+                <a href="#" class="config-phone">Loading phone...</a>
                 <span>•</span>
-                <a href="#" class="config-email"></a>
+                <a href="#" class="config-email">Loading email...</a>
             </div>
             <p class="config-hours"></p>
         </div>
