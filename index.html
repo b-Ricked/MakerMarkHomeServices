@@ -577,15 +577,11 @@ body {
     <div class="marquee-wrapper">
   
   <!-- TRACK 1: The Primary Container -->
-  <div class="marquee-track" id="marquee-track-1">
-    <!-- Keep empty: JS will fill this -->
+  <div class="dynamic-marquee-wrapper" style="overflow: hidden; width: 100%; display: flex; background: transparent; padding: 20px 0;">
+  <!-- The main animation track -->
+  <div class="dynamic-marquee-track" id="dynamic-marquee-track" style="display: flex; gap: 20px; width: max-content; will-change: transform;">
+    <!-- Keep empty: JavaScript will safely inject your pictures here -->
   </div>
-
-  <!-- TRACK 2: The Duplicate Twin Container -->
-  <div class="marquee-track" id="marquee-track-2" aria-hidden="true">
-    <!-- Keep empty: JS will fill this identically -->
-  </div>
-
 </div>
 
     <!-- 3. CORE SERVICES SECTION -->
