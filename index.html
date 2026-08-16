@@ -648,92 +648,91 @@ body {
         <p style="font-size: 0.75rem; margin-top: 0.5rem; color: #64748b;">All smart home device integrations and plumbing/lighting fixture swaps are aesthetic, component-level replacements of existing systems.</p>
     </footer>
 
-    <script>
-        const marqueeTrack = document.querySelector('.marquee-track');
-        const marqueeSlides = Array.from(document.querySelectorAll('.marquee-slide'));
-
-        if (marqueeTrack && marqueeSlides.length) {
-            const totalWidth = marqueeSlides.reduce((sum, slide) => sum + slide.getBoundingClientRect().width, 0);
-            const firstCloneSet = marqueeSlides.map(slide => slide.cloneNode(true));
-            firstCloneSet.forEach(clone => marqueeTrack.appendChild(clone));
-
-            let currentPosition = 0;
-            const speed = 0.4;
-
-            function animate() {
-                currentPosition -= speed;
-                const effectiveWidth = marqueeTrack.scrollWidth / 2;
-
-                if (Math.abs(currentPosition) >= effectiveWidth) {
-                    currentPosition = 0;
-                }
-
-                marqueeTrack.style.transform = `translateX(${currentPosition}px)`;
-                requestAnimationFrame(animate);
-            }
-
-            marqueeTrack.style.transform = 'translateX(0)';
-            requestAnimationFrame(animate);
-        }
-    </script>
+    
 
     <script>
-  const carouselFolder = './Carousel';
-  const allowedExtensions = ['.jpg', '.jpeg', '.png']; 
-  
-  // Target both explicit track containers
-  const track1 = document.getElementById('marquee-track-1');
-  const track2 = document.getElementById('marquee-track-2');
+  (function() {
+    const carouselFolder = './Carousel';
+    const allowedExtensions = ['.jpg', '.jpeg', '.png']; 
+    const track = document.getElementById('dynamic-marquee-track');
+    
+    let currentNumber = 1;
+    let imagesFound = [];
 
-  let currentNumber = 1;
-  let imagesFound = [];
+    function tryLoadingImage(extensionIndex) {
+      if (extensionIndex >= allowedExtensions.length) {
+        buildSelfScrollingMarquee();
+        return;
+      }
 
-  function tryLoadingImage(extensionIndex) {
-    if (extensionIndex >= allowedExtensions.length) {
-      renderMarquee();
-      return;
+      const currentExt = allowedExtensions[extensionIndex];
+      const img = new Image();
+      img.src = `${carouselFolder}/${currentNumber}${currentExt}`;
+
+      img.onload = function() {
+        imagesFound.push(img.src);
+        currentNumber++;
+        tryLoadingImage(0); 
+      };
+
+      img.onerror = function() {
+        tryLoadingImage(extensionIndex + 1); 
+      };
     }
 
-    const currentExt = allowedExtensions[extensionIndex];
-    const img = new Image();
-    img.src = `${carouselFolder}/${currentNumber}${currentExt}`;
+    function buildSelfScrollingMarquee() {
+      if (imagesFound.length === 0) return;
+      
+      track.innerHTML = '';
 
-    img.onload = function() {
-      imagesFound.push(img.src);
-      currentNumber++;
-      tryLoadingImage(0); // Reset for the next sequential number
-    };
+      // 1. Inject the original block of photos into your track
+      imagesFound.forEach(src => {
+        const imgElement = document.createElement('img');
+        imgElement.src = src;
+        imgElement.alt = "Home project image";
+        // Force uniform sizing so your layout scales cleanly
+        imgElement.style.height = "250px"; 
+        imgElement.style.width = "auto";
+        imgElement.style.objectFit = "cover";
+        imgElement.style.borderRadius = "8px";
+        track.appendChild(imgElement);
+      });
 
-    img.onerror = function() {
-      tryLoadingImage(extensionIndex + 1); // Test next extension style
-    };
-  }
+      // 2. Clone the images inside the track to seal the infinite space
+      const originalImages = Array.from(track.children);
+      originalImages.forEach(img => {
+        const clone = img.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        track.appendChild(clone);
+      });
 
-  function renderMarquee() {
-    if (imagesFound.length === 0) return;
-    
-    // Clear out both containers entirely to restart fresh
-    track1.innerHTML = '';
-    track2.innerHTML = '';
+      // 3. Inject the CSS Animation rules to bypass structural caching bugs
+      const styleId = 'marquee-animation-styles';
+      let styleTag = document.getElementById(styleId);
+      if (!styleTag) {
+        styleTag = document.createElement('style');
+        styleTag.id = styleId;
+        document.head.appendChild(styleTag);
+      }
+      
+      // Calculate the halfway mark translation shift to stop jumping frames
+      styleTag.innerHTML = `
+        @keyframes dynamicScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .dynamic-marquee-track {
+          animation: dynamicScroll 25s linear infinite;
+        }
+        .dynamic-marquee-wrapper:hover .dynamic-marquee-track {
+          animation-play-state: paused;
+        }
+      `;
+    }
 
-    // Loop through images and append them to both targets at once
-    imagesFound.forEach(src => {
-      // Create image element for Track 1
-      const img1 = document.createElement('img');
-      img1.src = src;
-      img1.alt = "Home project image";
-      track1.appendChild(img1);
-
-      // Create an identical duplicate image element for Track 2
-      const img2 = document.createElement('img');
-      img2.src = src;
-      img2.alt = "Home project image duplicate";
-      track2.appendChild(img2);
-    });
-  }
-
-  // Trigger folder scan
-  tryLoadingImage(0);
+    // Initialize scan loop
+    tryLoadingImage(0);
+  })();
 </script>
 
 </body>
