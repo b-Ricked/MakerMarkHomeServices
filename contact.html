@@ -36,12 +36,17 @@ function populateConfig() {
 
   // Update Email
   document.querySelectorAll('.config-email').forEach(el => {
-    if (!SITE_CONFIG.email) return;
+  if (!SITE_CONFIG.email) return;
+
+  if (el.tagName === 'A') {
+    // If it's already a link element, update both text and action
     el.textContent = SITE_CONFIG.email;
-    if (el.tagName === 'A') {
-      el.href = `mailto:${SITE_CONFIG.email}`;
-    }
-  });
+    el.href = `mailto:${SITE_CONFIG.email}`;
+  } else {
+    // If it's a plain container, inject a new, clickable link inside it
+    el.innerHTML = `<a href="mailto:${SITE_CONFIG.email}">${SITE_CONFIG.email}</a>`;
+  }
+});
 
   // Update Hours
   document.querySelectorAll('.config-hours').forEach(el => {
