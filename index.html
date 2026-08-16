@@ -676,7 +676,6 @@ body {
 
     <script>
   const carouselFolder = './Carousel';
-  // List all possible extensions you might use (keep them lowercase)
   const allowedExtensions = ['.jpg', '.jpeg', '.png']; 
   const marqueeContainer = document.querySelector('.marquee-track');
 
@@ -684,7 +683,6 @@ body {
   let imagesFound = [];
 
   function tryLoadingImage(extensionIndex) {
-    // If we have tried all listed extensions for this number, it means the number doesn't exist. Stop the loop.
     if (extensionIndex >= allowedExtensions.length) {
       renderMarquee();
       return;
@@ -694,14 +692,12 @@ body {
     const img = new Image();
     img.src = `${carouselFolder}/${currentNumber}${currentExt}`;
 
-    // If it finds the image with this extension, save it and move to the NEXT number
     img.onload = function() {
       imagesFound.push(img.src);
       currentNumber++;
-      tryLoadingImage(0); // Restart from the first extension (.jpg) for the next number
+      tryLoadingImage(0); 
     };
 
-    // If it fails (e.g., 2.jpg doesn't exist), try the next extension for the SAME number (e.g., 2.jpeg)
     img.onerror = function() {
       tryLoadingImage(extensionIndex + 1);
     };
@@ -710,10 +706,10 @@ body {
   function renderMarquee() {
     if (imagesFound.length === 0) return;
     
-    // Clear out container to prevent duplicate appending if called multiple times
+    // 1. Clear out any previous placeholders inside the main track
     marqueeContainer.innerHTML = '';
 
-    // 1. Inject the original set of images
+    // 2. Build the original track images
     imagesFound.forEach(src => {
       const imgElement = document.createElement('img');
       imgElement.src = src;
@@ -721,13 +717,23 @@ body {
       marqueeContainer.appendChild(imgElement);
     });
 
-    // 2. Clone the track to create the perfect infinite illusion
-    const clone = marqueeContainer.cloneNode(true);
-    clone.setAttribute('aria-hidden', 'true');
-    marqueeContainer.parentNode.appendChild(clone);
+    // 3. FIX: Clone the track element itself and place it alongside the original
+    // This provides the exact twin structure your CSS needs to move them side-by-side
+    const marqueeWrapper = marqueeContainer.parentNode;
+    
+    // Remove any previous broken clones to prevent stacking bugs
+    const existingClones = marqueeWrapper.querySelectorAll('.marquee-track-clone');
+    existingClones.forEach(el => el.remove());
+
+    const cloneTrack = marqueeContainer.cloneNode(true);
+    cloneTrack.classList.add('marquee-track-clone'); // Identify it to keep things clean
+    cloneTrack.setAttribute('aria-hidden', 'true');
+    
+    // Inject the twin right next to your original track container
+    marqueeWrapper.appendChild(cloneTrack);
   }
 
-  // Start checking files from 1
+  // Start reading images from 1
   tryLoadingImage(0);
 </script>
 
