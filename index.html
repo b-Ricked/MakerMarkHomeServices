@@ -659,7 +659,8 @@ body {
 
     function tryLoadingImage(extensionIndex) {
       if (extensionIndex >= allowedExtensions.length) {
-        buildDynamicMarquee();
+        // Folder scanning complete. Now wait for browser rendering.
+        waitForAllImagesToLoad();
         return;
       }
 
@@ -678,34 +679,60 @@ body {
       };
     }
 
-    function buildDynamicMarquee() {
+    // NEW CRITICAL STEP: Don't build the layout until the browser knows the exact dimensions
+    function waitForAllImagesToLoad() {
       if (imagesFound.length === 0) return;
-      
+
+      let loadedCount = 0;
+      const totalImages = imagesFound.length;
+      const loadedImageObjects = [];
+
+      imagesFound.forEach(src => {
+        const img = new Image();
+        img.src = src;
+        
+        // Force the layout parameters upfront
+        img.style.height = "250px"; 
+        img.style.width = "auto";
+        img.style.objectFit = "cover";
+        img.style.borderRadius = "8px";
+        img.alt = "Home project image";
+
+        img.onload = function() {
+          loadedCount++;
+          loadedImageObjects.push(img);
+          // Only trigger the carousel build when the absolute final picture is fully ready
+          if (loadedCount === totalImages) {
+            buildDynamicMarquee(loadedImageObjects);
+          }
+        };
+        
+        // Fallback safety in case a single image file glitches
+        img.onerror = function() {
+          loadedCount++;
+          if (loadedCount === totalImages) {
+            buildDynamicMarquee(loadedImageObjects);
+          }
+        };
+      });
+    }
+
+    function buildDynamicMarquee(readyImages) {
       track.innerHTML = '';
 
-      // 1. Inject the original pictures into the track row
-      imagesFound.forEach(src => {
-        const imgElement = document.createElement('img');
-        imgElement.src = src;
-        imgElement.alt = "Home project image";
-        
-        // Force explicit sizing bounds so images never break the box layout
-        imgElement.style.height = "250px"; 
-        imgElement.style.width = "auto";
-        imgElement.style.objectFit = "cover";
-        imgElement.style.borderRadius = "8px";
-        track.appendChild(imgElement);
+      // 1. Inject set A (Originals)
+      readyImages.forEach(img => {
+        track.appendChild(img);
       });
 
-      // 2. Clone the images inside the track to seal the infinite space
-      const originalImages = Array.from(track.children);
-      originalImages.forEach(img => {
+      // 2. Inject set B (Identical inline duplicates) to catch the tail end
+      readyImages.forEach(img => {
         const clone = img.cloneNode(true);
         clone.setAttribute('aria-hidden', 'true');
         track.appendChild(clone);
       });
 
-      // 3. Generate dynamic animation keyframes based on the runtime layout size
+      // 3. Inject the clean runtime styling loop
       const styleId = 'marquee-runtime-styles';
       let styleTag = document.getElementById(styleId);
       if (!styleTag) {
@@ -714,14 +741,14 @@ body {
         document.head.appendChild(styleTag);
       }
       
-      // translateX(-50%) forces the conveyor belt to snap back exactly halfway 
+      // translateX(-50% - 10px) factors the 20px layout gap math perfectly so it never jumps
       styleTag.innerHTML = `
         @keyframes dynamicScrollLoop {
           0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+          100% { transform: translateX(calc(-50% - 10px)); }
         }
         #dynamic-marquee-track {
-          animation: dynamicScrollLoop 25s linear infinite;
+          animation: dynamicScrollLoop 30s linear infinite;
         }
         .dynamic-marquee-wrapper:hover #dynamic-marquee-track {
           animation-play-state: paused;
@@ -729,7 +756,7 @@ body {
       `;
     }
 
-    // Fire folder scan
+    // Run scanner
     tryLoadingImage(0);
   })();
 </script>
