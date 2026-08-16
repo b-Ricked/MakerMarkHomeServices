@@ -574,11 +574,18 @@ body {
 
     </header>
 
-    <div class="marquee-wrap" style="overflow: hidden; display: flex;">
-  <!-- This is the container our JavaScript will target -->
-  <div class="marquee-track">
-    <!-- Leave this completely empty! JavaScript will inject the images here. -->
+    <div class="marquee-wrapper">
+  
+  <!-- TRACK 1: The Primary Container -->
+  <div class="marquee-track" id="marquee-track-1">
+    <!-- Keep empty: JS will fill this -->
   </div>
+
+  <!-- TRACK 2: The Duplicate Twin Container -->
+  <div class="marquee-track" id="marquee-track-2" aria-hidden="true">
+    <!-- Keep empty: JS will fill this identically -->
+  </div>
+
 </div>
 
     <!-- 3. CORE SERVICES SECTION -->
@@ -677,7 +684,10 @@ body {
     <script>
   const carouselFolder = './Carousel';
   const allowedExtensions = ['.jpg', '.jpeg', '.png']; 
-  const marqueeContainer = document.querySelector('.marquee-track');
+  
+  // Target both explicit track containers
+  const track1 = document.getElementById('marquee-track-1');
+  const track2 = document.getElementById('marquee-track-2');
 
   let currentNumber = 1;
   let imagesFound = [];
@@ -695,45 +705,38 @@ body {
     img.onload = function() {
       imagesFound.push(img.src);
       currentNumber++;
-      tryLoadingImage(0); 
+      tryLoadingImage(0); // Reset for the next sequential number
     };
 
     img.onerror = function() {
-      tryLoadingImage(extensionIndex + 1);
+      tryLoadingImage(extensionIndex + 1); // Test next extension style
     };
   }
 
   function renderMarquee() {
     if (imagesFound.length === 0) return;
     
-    // 1. Clear out any previous placeholders inside the main track
-    marqueeContainer.innerHTML = '';
+    // Clear out both containers entirely to restart fresh
+    track1.innerHTML = '';
+    track2.innerHTML = '';
 
-    // 2. Build the original track images
+    // Loop through images and append them to both targets at once
     imagesFound.forEach(src => {
-      const imgElement = document.createElement('img');
-      imgElement.src = src;
-      imgElement.alt = "Home project image";
-      marqueeContainer.appendChild(imgElement);
+      // Create image element for Track 1
+      const img1 = document.createElement('img');
+      img1.src = src;
+      img1.alt = "Home project image";
+      track1.appendChild(img1);
+
+      // Create an identical duplicate image element for Track 2
+      const img2 = document.createElement('img');
+      img2.src = src;
+      img2.alt = "Home project image duplicate";
+      track2.appendChild(img2);
     });
-
-    // 3. FIX: Clone the track element itself and place it alongside the original
-    // This provides the exact twin structure your CSS needs to move them side-by-side
-    const marqueeWrapper = marqueeContainer.parentNode;
-    
-    // Remove any previous broken clones to prevent stacking bugs
-    const existingClones = marqueeWrapper.querySelectorAll('.marquee-track-clone');
-    existingClones.forEach(el => el.remove());
-
-    const cloneTrack = marqueeContainer.cloneNode(true);
-    cloneTrack.classList.add('marquee-track-clone'); // Identify it to keep things clean
-    cloneTrack.setAttribute('aria-hidden', 'true');
-    
-    // Inject the twin right next to your original track container
-    marqueeWrapper.appendChild(cloneTrack);
   }
 
-  // Start reading images from 1
+  // Trigger folder scan
   tryLoadingImage(0);
 </script>
 
