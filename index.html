@@ -13,6 +13,105 @@
             --bg-light: #f8fafc;    /* Off-White Section Background */
             --white: #ffffff;
         }
+        /* Style for your main page button */
+.cta-button {
+  background-color: #000; /* Adjust to match your website theme */
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* The darkened background overlay */
+.contact-modal-overlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The popup box content wrapper */
+.contact-modal-content {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  font-family: sans-serif;
+}
+
+.contact-modal-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.contact-modal-content p {
+  margin: 0 0 20px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Button container inside popup */
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* Shared button styles inside popup */
+.modal-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  color: #fff;
+  transition: opacity 0.2s;
+}
+
+.modal-btn:hover {
+  opacity: 0.9;
+}
+
+/* Color variations for Call vs Text */
+.call-action {
+  background-color: #007bff; /* Primary Blue */
+}
+
+.text-action {
+  background-color: #28a745; /* Success Green */
+}
+
+/* Cancel / Close link styling */
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.modal-close-btn:hover {
+  color: #333;
+}
 
         * {
             box-sizing: border-box;
@@ -561,7 +660,31 @@ body {
         <h1>Maker Mark Home Services</h1>
         <p>Smart Home Technology Integration & Home Repairs</p>
         <div class="cta-container">
-            <a href="tel:2169254269" class="cta-btn call-btn">Call or Text 216-925-4269</a>
+            <!-- The Main Button -->
+<button class="cta-button" onclick="toggleContactModal()">Call or Text</button>
+
+<!-- The Popup Modal Layout -->
+<div id="contactModal" class="contact-modal-overlay" onclick="toggleContactModal()">
+  <div class="contact-modal-content" onclick="event.stopPropagation()">
+    <h3>How would you like to reach us?</h3>
+    <p>Maker Mark Home Services</p>
+    
+    <div class="modal-actions">
+      <!-- Call Option -->
+      <a href="tel:+12169254269" class="modal-btn call-action">
+        <span class="icon">📞</span> Call Us
+      </a>
+      
+      <!-- Text Option -->
+      <a href="sms:+12169254269" class="modal-btn text-action">
+        <span class="icon">💬</span> Text Us
+      </a>
+    </div>
+    
+    <!-- Close Button -->
+    <button class="modal-close-btn" onclick="toggleContactModal()">Cancel</button>
+  </div>
+</div>
             <a href="contact.html" class="cta-btn email-btn">Contact Me</a>
         </div>
 
@@ -687,6 +810,17 @@ body {
             requestAnimationFrame(animate);
         }
     </script>
+
+    <script>
+function toggleContactModal() {
+  const modal = document.getElementById('contactModal');
+  if (modal.style.display === 'flex') {
+    modal.style.display = 'none';
+  } else {
+    modal.style.display = 'flex';
+  }
+}
+</script>
 
 </body>
 </html>
