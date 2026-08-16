@@ -5,58 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | Maker Mark Home Services</title>
     
-    <!-- Load your configuration file -->
-<script src="./config.js"></script>
-
-<!-- Script to populate the data -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-  populateConfig();
-});
-
-// Also run after a short delay in case config.js loads slowly
-setTimeout(() => {
-  populateConfig();
-}, 200);
-
-function populateConfig() {
-  if (typeof SITE_CONFIG === 'undefined') {
-    console.warn('SITE_CONFIG not loaded yet');
-    return;
-  }
-
-  // Update Phone
-  document.querySelectorAll('.config-phone').forEach(el => {
-    if (!SITE_CONFIG.phone) return;
-    el.textContent = SITE_CONFIG.phone;
-    if (el.tagName === 'A') {
-      el.href = `tel:${SITE_CONFIG.phone.replace(/\D/g, '')}`;
-    }
-  });
-
-  // Update Email
-  document.querySelectorAll('.config-email').forEach(el => {
-  if (!SITE_CONFIG.email) return;
-
-  if (el.tagName === 'A') {
-    // If it's already a link element, update both text and action
-    el.textContent = SITE_CONFIG.email;
-    el.href = `mailto:${SITE_CONFIG.email}`;
-  } else {
-    // If it's a plain container, inject a new, clickable link inside it
-    el.innerHTML = `<a href="mailto:${SITE_CONFIG.email}">${SITE_CONFIG.email}</a>`;
-  }
-});
-
-  // Update Hours
-  document.querySelectorAll('.config-hours').forEach(el => {
-    if (SITE_CONFIG.hours) {
-      el.textContent = SITE_CONFIG.hours;
-    }
-  });
-}
-</script>
-
     <style>
         :root {
             --primary: #0b2545;
@@ -439,11 +387,11 @@ function populateConfig() {
         <div class="hero-contact-strip">
             <p>Text or email with pictures or questions to:</p>
             <div class="hero-contact-links">
-                <a href="#" class="config-phone">Loading phone...</a>
+                <a href="tel:2165550000">123-456-7890</a>
                 <span>•</span>
-                <a href="#" class="config-email">Loading email...</a>
+                <a href="mailto:Mark@MakerMarkHomeServices.com">Mark@MakerMarkHomeServices.com</a>
             </div>
-            <p class="config-hours"></p>
+            <p>Open Monday through Saturday: 9:00 AM - 6:00 PM</p>
         </div>
     </section>
 
