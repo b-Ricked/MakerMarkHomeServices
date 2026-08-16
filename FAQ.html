@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs & Warranty | Maker Mark Home Services</title>
+    <style>
+        :root {
+            --primary: #0b2545;
+            --accent: #134074;
+            --green-logo: #70b62c;
+            --text: #334155;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            color: var(--text);
+            background-color: var(--white);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .navbar {
+            background-color: var(--white);
+            border-bottom: 2px solid #e2e8f0;
+            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar-container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 60px;
+            width: auto;
+            display: block;
+        }
+
+        .registration-box {
+            background-color: #25D366;
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 4px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 0;
+        }
+
+        .registration-box .main-text {
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.1;
+        }
+
+        .registration-box .sub-text {
+            font-size: 0.7rem;
+            font-weight: 500;
+            opacity: 0.9;
+            white-space: nowrap;
+            margin-top: -1px;
+            line-height: 1.1;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #051021 100%);
+            color: var(--white);
+            padding: 3rem 1.5rem 2.2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            color: #cbd5e1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .faq-section {
+            background: var(--bg-light);
+            padding: 0;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* --- Interactive CSS Accordion FAQs --- */
+        .faq-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            background-color: var(--white);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+        }
+
+        .faq-input {
+            display: none;
+        }
+
+        .faq-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .faq-label:hover {
+            background-color: var(--bg-light);
+        }
+
+        .faq-label::after {
+            content: "+";
+            font-size: 1.5rem;
+            color: var(--green-logo);
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 1.25rem;
+            background-color: var(--white);
+            transition: max-height 0.2s ease, padding 0.2s ease;
+        }
+
+        .faq-content p {
+            margin: 1rem 0;
+            color: var(--text);
+            font-size: 0.98rem;
+        }
+
+        .faq-input:checked ~ .faq-label {
+            background-color: var(--bg-light);
+        }
+
+        .faq-input:checked ~ .faq-label::after {
+            content: "−";
+        }
+
+        .faq-input:checked ~ .faq-content {
+            max-height: 800px;
+            padding: 0 1.25rem 1.25rem 1.25rem;
+        }
+
+        .legal-card {
+            background-color: var(--white);
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+        }
+
+        .legal-card h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+        }
+
+        .legal-card p,
+        .legal-card ul {
+            color: var(--text);
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .legal-card ul {
+            padding-left: 1.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .legal-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-strip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0;
+            flex-wrap: wrap;
+            text-align: left;
+            width: 100%;
+        }
+
+        .profile-photo {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            background-color: #e2e8f0;
+            box-shadow: 0 8px 18px rgba(11, 37, 69, 0.12);
+        }
+
+        .profile-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2.25rem;
+            max-width: 560px;
+            width: 100%;
+        }
+
+        .profile-copy {
+            max-width: 360px;
+            color: var(--primary);
+            flex: 1;
+            margin-left: 0;
+        }
+
+        .profile-copy h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: var(--primary);
+        }
+
+        .profile-copy p {
+            font-size: 0.96rem;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        .contact-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #25D366;
+            color: #ffffff;
+            border: 2px solid #25D366;
+            border-radius: 6px;
+            padding: 0.9rem 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+            margin-top: 1rem;
+        }
+
+        .contact-button:hover {
+            background-color: #1ebe5d;
+            border-color: #1ebe5d;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: var(--primary);
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.75rem 0.9rem;
+            }
+
+            .navbar-container {
+                gap: 14px;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .logo-img {
+                height: 44px;
+                flex-shrink: 0;
+            }
+
+            .registration-box {
+                padding: 8px 12px;
+                margin-left: 4px;
+            }
+
+            .profile-strip {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .profile-meta {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 0.95rem;
+            }
+
+            .profile-copy {
+                max-width: 100%;
+            }
+
+            .contact-button {
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+         <div class="navbar-container">
+            <!-- Logo links to contact page -->
+            <a href="index.html" class="navbar-link">
+                <img src="MMWhiteBackground.svg" alt="Maker Mark Home Services Logo" class="logo-img">
+            </a>
+            <!-- FAQ button -->
+            <a href="index.html" class="navbar-link">
+                <div class="registration-box">
+                    <span class="main-text">Ohio Registered</span>
+                    <span class="sub-text">Licensed • Bonded • Insured</span>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>FAQs & Warranty</h1>
+        <p>Frequently Asked Questions, Warranty Guidelines & Legal Policies</p>
+    </header>
+
+    <section class="faq-section">
+        <div class="container">
+            <!-- SECTION 1: FAQs -->
+            <div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+
+                <!-- FAQ Item 1 -->
+                <div class="faq-item">
+                    <input type="checkbox" id="faq1" class="faq-input">
+                    <label for="faq1" class="faq-label">Do you require project photos before giving a quote?</label>
+                    <div class="faq-content">
+                        <p>Yes. To provide fast, upfront, and accurate flat-rate estimates without charging you a diagnostic trip fee, we ask all clients to text snapshot photos of their home repair or smart device setup to (216) 555-0000. This allows us to verify device compatibility and parts tracking before arriving.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item">
+                    <input type="checkbox" id="faq2" class="faq-input">
+                    <label for="faq2" class="faq-label">What types of services are explicitly excluded from your scope?</label>
+                    <div class="faq-content">
+                        <p>For safety and insurance compliance limitations, Maker Mark Home Services does not handle structural modifications, high-voltage electrical box changes, complex behind-the-wall plumbing rough-ins, roofing work, or gas line maintenance. We focus purely on aesthetic, component-level swaps and repairs.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item">
+                    <input type="checkbox" id="faq3" class="faq-input">
+                    <label for="faq3" class="faq-label">Do you provide the hardware components or do I buy them?</label>
+                    <div class="faq-content">
+                        <p>For smart technology setups (like video doorbells or thermostats) and fixtures (faucets, lighting units), the customer typically supplies the specific model they prefer. We supply all standard mounting equipment, wiring extensions, structural anchors, and specialized hand tools required to finish the replacement seamlessly.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="faq-item">
+                    <input type="checkbox" id="faq4" class="faq-input">
+                    <label for="faq4" class="faq-label">What geographical areas do you service across Northeast Ohio?</label>
+                    <div class="faq-content">
+                        <p>We provide home repair services across Greater Cleveland, with primary focus areas including Euclid, Cleveland Heights, Willowick, and Wickliffe. If you are located just outside these boundaries, please text us to check route coverage availability.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: WARRANTY TERMS -->
+            <div style="margin-top: 3rem;">
+                <h2 class="section-title">Workmanship Warranty Agreement</h2>
+
+                <div class="legal-card">
+                    <h4>1-Year Limited Labor Guarantee</h4>
+                    <p>Maker Mark Home Services stands firmly behind the precision of our labor. We provide a <strong>One (1) Year Limited Labor Warranty</strong> from the date of project completion. If a structural adjustment or hardware mount fails strictly due to installation error, we will return to repair or re-secure the installation at zero additional cost to you.</p>
+                </div>
+
+                <div class="legal-card">
+                    <h4>What Is Excluded From Coverage?</h4>
+                    <p>This warranty covers our manual labor precision exclusively. It does not cover:</p>
+                    <ul>
+                        <li>Manufacturer manufacturing defects inherent to user-supplied hardware or smart electronics.</li>
+                        <li>Failures caused by structural shifting of the home, settling walls, plumbing leaks, or severe weather conditions.</li>
+                        <li>Normal wear and tear or misuse by the customer after installation.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-card">
+                    <h4>How to Report a Warranty Claim</h4>
+                    <p>If you suspect a workmanship defect within one year of completion, please contact us via phone or email with photos describing the issue. We will evaluate the claim and respond within 2-3 business days with our assessment and remedy timeline.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section" style="background-color: #f8fafc; text-align: center;">
+        <div class="container">
+            <div class="profile-strip">
+                <img src="me.png" alt="Owner portrait" class="profile-photo">
+                <div class="profile-meta">
+                    <div class="profile-copy">
+                        <h3>Veteran-Owned & Licensed</h3>
+                        <p>Professional home service contractor with a focus on quality work, honest communication, and dependable repairs for homes across Northeast Ohio.</p>
+                    </div>
+                    <a href="contact.html" class="contact-button">Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Maker Mark Home Services LLC. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 0.5rem; color: #64748b;">All smart home device integrations and plumbing/lighting fixture swaps are aesthetic, component-level replacements of existing systems.</p>
+    </footer>
+</body>
+</html>
