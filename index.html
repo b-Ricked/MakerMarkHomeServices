@@ -574,13 +574,11 @@ body {
 
     </header>
 
-    <div class="marquee-wrapper">
-  
-  <!-- TRACK 1: The Primary Container -->
-  <div class="dynamic-marquee-wrapper" style="overflow: hidden; width: 100%; display: flex; background: transparent; padding: 20px 0;">
-  <!-- The main animation track -->
-  <div class="dynamic-marquee-track" id="dynamic-marquee-track" style="display: flex; gap: 20px; width: max-content; will-change: transform;">
-    <!-- Keep empty: JavaScript will safely inject your pictures here -->
+    <!-- The boundary frame that locks the size and hides the overflow -->
+<div class="dynamic-marquee-wrapper" style="overflow: hidden; width: 100%; display: flex; padding: 20px 0;">
+  <!-- The horizontal strip that moves -->
+  <div id="dynamic-marquee-track" style="display: flex; gap: 20px; width: max-content; will-change: transform;">
+    <!-- Keep empty! JavaScript handles everything inside here -->
   </div>
 </div>
 
@@ -661,7 +659,7 @@ body {
 
     function tryLoadingImage(extensionIndex) {
       if (extensionIndex >= allowedExtensions.length) {
-        buildSelfScrollingMarquee();
+        buildDynamicMarquee();
         return;
       }
 
@@ -680,17 +678,18 @@ body {
       };
     }
 
-    function buildSelfScrollingMarquee() {
+    function buildDynamicMarquee() {
       if (imagesFound.length === 0) return;
       
       track.innerHTML = '';
 
-      // 1. Inject the original block of photos into your track
+      // 1. Inject the original pictures into the track row
       imagesFound.forEach(src => {
         const imgElement = document.createElement('img');
         imgElement.src = src;
         imgElement.alt = "Home project image";
-        // Force uniform sizing so your layout scales cleanly
+        
+        // Force explicit sizing bounds so images never break the box layout
         imgElement.style.height = "250px"; 
         imgElement.style.width = "auto";
         imgElement.style.objectFit = "cover";
@@ -706,8 +705,8 @@ body {
         track.appendChild(clone);
       });
 
-      // 3. Inject the CSS Animation rules to bypass structural caching bugs
-      const styleId = 'marquee-animation-styles';
+      // 3. Generate dynamic animation keyframes based on the runtime layout size
+      const styleId = 'marquee-runtime-styles';
       let styleTag = document.getElementById(styleId);
       if (!styleTag) {
         styleTag = document.createElement('style');
@@ -715,22 +714,22 @@ body {
         document.head.appendChild(styleTag);
       }
       
-      // Calculate the halfway mark translation shift to stop jumping frames
+      // translateX(-50%) forces the conveyor belt to snap back exactly halfway 
       styleTag.innerHTML = `
-        @keyframes dynamicScroll {
+        @keyframes dynamicScrollLoop {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-        .dynamic-marquee-track {
-          animation: dynamicScroll 25s linear infinite;
+        #dynamic-marquee-track {
+          animation: dynamicScrollLoop 25s linear infinite;
         }
-        .dynamic-marquee-wrapper:hover .dynamic-marquee-track {
+        .dynamic-marquee-wrapper:hover #dynamic-marquee-track {
           animation-play-state: paused;
         }
       `;
     }
 
-    // Initialize scan loop
+    // Fire folder scan
     tryLoadingImage(0);
   })();
 </script>
