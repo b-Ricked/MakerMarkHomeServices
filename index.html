@@ -574,20 +574,12 @@ body {
 
     </header>
 
-    <div class="marquee-wrap">
-        <div class="marquee-shell" aria-label="Project gallery marquee">
-            <div class="marquee-track">
-                <div class="marquee-slide"><img src="/Carousel/1.jpg" alt="Home project image 1"></div>
-                <div class="marquee-slide"><img src="/Carousel/2.jpg" alt="Home project image 2"></div>
-                <div class="marquee-slide"><img src="/Carousel/3.jpg" alt="Home project image 3"></div>
-                <div class="marquee-slide"><img src="/Carousel/4.jpg" alt="Home project image 4"></div>
-                <div class="marquee-slide"><img src="/Carousel/1.jpg" alt="Home project image 1 duplicate"></div>
-                <div class="marquee-slide"><img src="/Carousel/2.jpg" alt="Home project image 2 duplicate"></div>
-                <div class="marquee-slide"><img src="/Carousel/3.jpg" alt="Home project image 3 duplicate"></div>
-                <div class="marquee-slide"><img src="/Carousel/4.jpg" alt="Home project image 4 duplicate"></div>
-            </div>
-        </div>
-    </div>
+    <div class="marquee-wrap" style="overflow: hidden; display: flex;">
+  <!-- This is the container our JavaScript will target -->
+  <div class="marquee-track">
+    <!-- Leave this completely empty! JavaScript will inject the images here. -->
+  </div>
+</div>
 
     <!-- 3. CORE SERVICES SECTION -->
     <main class="container">
@@ -681,6 +673,63 @@ body {
             requestAnimationFrame(animate);
         }
     </script>
+
+    <script>
+  const carouselFolder = './Carousel';
+  // List all possible extensions you might use (keep them lowercase)
+  const allowedExtensions = ['.jpg', '.jpeg', '.png']; 
+  const marqueeContainer = document.querySelector('.marquee-track');
+
+  let currentNumber = 1;
+  let imagesFound = [];
+
+  function tryLoadingImage(extensionIndex) {
+    // If we have tried all listed extensions for this number, it means the number doesn't exist. Stop the loop.
+    if (extensionIndex >= allowedExtensions.length) {
+      renderMarquee();
+      return;
+    }
+
+    const currentExt = allowedExtensions[extensionIndex];
+    const img = new Image();
+    img.src = `${carouselFolder}/${currentNumber}${currentExt}`;
+
+    // If it finds the image with this extension, save it and move to the NEXT number
+    img.onload = function() {
+      imagesFound.push(img.src);
+      currentNumber++;
+      tryLoadingImage(0); // Restart from the first extension (.jpg) for the next number
+    };
+
+    // If it fails (e.g., 2.jpg doesn't exist), try the next extension for the SAME number (e.g., 2.jpeg)
+    img.onerror = function() {
+      tryLoadingImage(extensionIndex + 1);
+    };
+  }
+
+  function renderMarquee() {
+    if (imagesFound.length === 0) return;
+    
+    // Clear out container to prevent duplicate appending if called multiple times
+    marqueeContainer.innerHTML = '';
+
+    // 1. Inject the original set of images
+    imagesFound.forEach(src => {
+      const imgElement = document.createElement('img');
+      imgElement.src = src;
+      imgElement.alt = "Home project image";
+      marqueeContainer.appendChild(imgElement);
+    });
+
+    // 2. Clone the track to create the perfect infinite illusion
+    const clone = marqueeContainer.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    marqueeContainer.parentNode.appendChild(clone);
+  }
+
+  // Start checking files from 1
+  tryLoadingImage(0);
+</script>
 
 </body>
 </html>
