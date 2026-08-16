@@ -576,10 +576,8 @@ body {
 
     <!-- The boundary frame that locks the size and hides the overflow -->
 <div class="dynamic-marquee-wrapper" style="overflow: hidden; width: 100%; display: flex; padding: 20px 0;">
-  <!-- The horizontal strip that moves -->
-  <div id="dynamic-marquee-track" style="display: flex; gap: 20px; width: max-content; will-change: transform;">
-    <!-- Keep empty! JavaScript handles everything inside here -->
-  </div>
+  <!-- JavaScript will dynamically calculate the contents of this track -->
+  <div id="dynamic-marquee-track" style="display: flex; gap: 20px; width: max-content; will-change: transform;"></div>
 </div>
 
     <!-- 3. CORE SERVICES SECTION -->
@@ -659,8 +657,7 @@ body {
 
     function tryLoadingImage(extensionIndex) {
       if (extensionIndex >= allowedExtensions.length) {
-        // Folder scanning complete. Now wait for browser rendering.
-        waitForAllImagesToLoad();
+        waitForImagesToRender();
         return;
       }
 
@@ -679,19 +676,15 @@ body {
       };
     }
 
-    // NEW CRITICAL STEP: Don't build the layout until the browser knows the exact dimensions
-    function waitForAllImagesToLoad() {
+    function waitForImagesToRender() {
       if (imagesFound.length === 0) return;
 
       let loadedCount = 0;
-      const totalImages = imagesFound.length;
-      const loadedImageObjects = [];
+      const loadedImgElements = [];
 
       imagesFound.forEach(src => {
         const img = new Image();
         img.src = src;
-        
-        // Force the layout parameters upfront
         img.style.height = "250px"; 
         img.style.width = "auto";
         img.style.objectFit = "cover";
@@ -700,39 +693,50 @@ body {
 
         img.onload = function() {
           loadedCount++;
-          loadedImageObjects.push(img);
-          // Only trigger the carousel build when the absolute final picture is fully ready
-          if (loadedCount === totalImages) {
-            buildDynamicMarquee(loadedImageObjects);
+          loadedImgElements.push(img);
+          if (loadedCount === imagesFound.length) {
+            buildPerfectMarquee(loadedImgElements);
           }
         };
-        
-        // Fallback safety in case a single image file glitches
         img.onerror = function() {
           loadedCount++;
-          if (loadedCount === totalImages) {
-            buildDynamicMarquee(loadedImageObjects);
+          if (loadedCount === imagesFound.length) {
+            buildPerfectMarquee(loadedImgElements);
           }
         };
       });
     }
 
-    function buildDynamicMarquee(readyImages) {
+    function buildPerfectMarquee(readyImages) {
       track.innerHTML = '';
 
-      // 1. Inject set A (Originals)
-      readyImages.forEach(img => {
-        track.appendChild(img);
-      });
+      // Create a master container for a single iteration pass
+      const baseGroup = document.createElement('div');
+      baseGroup.style.display = 'flex';
+      baseGroup.style.gap = '20px';
+      baseGroup.style.paddingRight = '20px';
 
-      // 2. Inject set B (Identical inline duplicates) to catch the tail end
-      readyImages.forEach(img => {
-        const clone = img.cloneNode(true);
-        clone.setAttribute('aria-hidden', 'true');
+      readyImages.forEach(img => baseGroup.appendChild(img));
+      track.appendChild(baseGroup);
+
+      // CRITICAL STEP: Measure the base layout width
+      const groupWidth = baseGroup.getBoundingClientRect().width;
+      const screenWidth = window.innerWidth;
+
+      // Automatically calculate how many tracks we need to safely fill the viewport width twice
+      // If photos are few, this multiplies the tracks up to 3, 4, or more dynamically.
+      const tracksNeeded = Math.max(2, Math.ceil((screenWidth * 2) / groupWidth));
+
+      // Append the extra copies needed to seal visual breaks
+      for (let i = 1; i < tracksNeeded; i++) {
+        const clone = baseGroup.cloneNode(true);
+        if (i > 0) clone.setAttribute('aria-hidden', 'true');
         track.appendChild(clone);
-      });
+      }
 
-      // 3. Inject the clean runtime styling loop
+      // Calculate translation parameters safely based on the number of groups rendered
+      const translationPercentage = -(100 / tracksNeeded);
+
       const styleId = 'marquee-runtime-styles';
       let styleTag = document.getElementById(styleId);
       if (!styleTag) {
@@ -741,11 +745,10 @@ body {
         document.head.appendChild(styleTag);
       }
       
-      // translateX(-50% - 10px) factors the 20px layout gap math perfectly so it never jumps
       styleTag.innerHTML = `
         @keyframes dynamicScrollLoop {
           0% { transform: translateX(0); }
-          100% { transform: translateX(calc(-50% - 10px)); }
+          100% { transform: translateX(${translationPercentage}%); }
         }
         #dynamic-marquee-track {
           animation: dynamicScrollLoop 30s linear infinite;
@@ -756,10 +759,10 @@ body {
       `;
     }
 
-    // Run scanner
     tryLoadingImage(0);
   })();
 </script>
+
 
 </body>
 </html>
