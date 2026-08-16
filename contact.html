@@ -4,6 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | Maker Mark Home Services</title>
+
+    <!-- Load your configuration file -->
+<script src="config.js"></script>
+
+<!-- Script to populate the data -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Update phone numbers (text and call links)
+    document.querySelectorAll('.config-phone').forEach(el => {
+      el.textContent = SITE_CONFIG.phone;
+      if (el.tagName === 'A') el.href = `tel:${SITE_CONFIG.phone.replace(/\D/g, '')}`;
+    });
+
+    // Update emails (text and mailto links)
+    document.querySelectorAll('.config-email').forEach(el => {
+      el.textContent = SITE_CONFIG.email;
+      if (el.tagName === 'A') el.href = `mailto:${SITE_CONFIG.email}`;
+    });
+
+    // Update hours
+    document.querySelectorAll('.config-hours').forEach(el => {
+      el.textContent = SITE_CONFIG.hours;
+    });
+  });
+</script>
+
     <style>
         :root {
             --primary: #0b2545;
@@ -386,9 +412,9 @@
         <div class="hero-contact-strip">
             <p>Text or email with pictures or questions to:</p>
             <div class="hero-contact-links">
-                <a href="tel:2165550000">123-456-7890</a>
+                <a href="#" class="config-phone"></a>
                 <span>•</span>
-                <a href="mailto:Mark@MakerMarkHomeServices.com">Mark@MakerMarkHomeServices.com</a>
+                <a href="#" class="config-email"></a>
             </div>
             <p>Open Monday through Saturday: 9:00 AM - 6:00 PM</p>
         </div>
