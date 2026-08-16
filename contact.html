@@ -11,12 +11,24 @@
 <!-- Script to populate the data -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-  if (typeof SITE_CONFIG === 'undefined') return;
+  populateConfig();
+});
+
+// Also run after a short delay in case config.js loads slowly
+setTimeout(() => {
+  populateConfig();
+}, 200);
+
+function populateConfig() {
+  if (typeof SITE_CONFIG === 'undefined') {
+    console.warn('SITE_CONFIG not loaded yet');
+    return;
+  }
 
   // Update Phone
   document.querySelectorAll('.config-phone').forEach(el => {
     if (!SITE_CONFIG.phone) return;
-    el.textContent = SITE_CONFIG.phone; // Inserts the text on screen
+    el.textContent = SITE_CONFIG.phone;
     if (el.tagName === 'A') {
       el.href = `tel:${SITE_CONFIG.phone.replace(/\D/g, '')}`;
     }
@@ -25,7 +37,7 @@
   // Update Email
   document.querySelectorAll('.config-email').forEach(el => {
     if (!SITE_CONFIG.email) return;
-    el.textContent = SITE_CONFIG.email; // Inserts the text on screen
+    el.textContent = SITE_CONFIG.email;
     if (el.tagName === 'A') {
       el.href = `mailto:${SITE_CONFIG.email}`;
     }
@@ -37,7 +49,7 @@
       el.textContent = SITE_CONFIG.hours;
     }
   });
-});
+}
 </script>
 
     <style>
