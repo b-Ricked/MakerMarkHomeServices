@@ -142,6 +142,16 @@
             gap: 0;
             padding: 0;
             will-change: transform;
+            animation: scroll 40s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
         }
 
         .marquee-slide {
