@@ -574,11 +574,31 @@ body {
 
     </header>
 
-    <!-- The boundary frame that locks the size and hides the overflow -->
-<div class="dynamic-marquee-wrapper" style="overflow: hidden; width: 100%; display: flex; padding: 20px 0;">
-  <!-- JavaScript will dynamically calculate the contents of this track -->
-  <div id="dynamic-marquee-track" style="display: flex; gap: 20px; width: max-content; will-change: transform;"></div>
-</div>
+    <div class="marquee-wrap">
+        <div class="marquee-shell" aria-label="Project gallery marquee">
+            <div class="marquee-track">
+                <div class="marquee-slide"><img src="/Carousel/1.jpeg" alt="Home project image 1"></div>
+                <div class="marquee-slide"><img src="/Carousel/2.jpeg" alt="Home project image 2"></div>
+                <div class="marquee-slide"><img src="/Carousel/3.jpeg" alt="Home project image 3"></div>
+                <div class="marquee-slide"><img src="/Carousel/4.jpeg" alt="Home project image 4"></div>
+                <div class="marquee-slide"><img src="/Carousel/5.jpeg" alt="Home project image 5"></div>
+                <div class="marquee-slide"><img src="/Carousel/6.jpeg" alt="Home project image 6"></div>
+                <div class="marquee-slide"><img src="/Carousel/7.jpeg" alt="Home project image 7"></div>
+                <div class="marquee-slide"><img src="/Carousel/8.jpg" alt="Home project image 8"></div>
+
+
+                <div class="marquee-slide"><img src="/Carousel/1.jpeg" alt="Home project image 1 duplicate"></div>
+                <div class="marquee-slide"><img src="/Carousel/2.jpeg" alt="Home project image 2 duplicate"></div>
+                <div class="marquee-slide"><img src="/Carousel/3.jpeg" alt="Home project image 3 duplicate"></div>
+                <div class="marquee-slide"><img src="/Carousel/4.jpeg" alt="Home project image 4 duplicate"></div>
+                <div class="marquee-slide"><img src="/Carousel/5.jpeg" alt="Home project image 5 duplicate"></div>
+                <div class="marquee-slide"><img src="/Carousel/6.jpeg" alt="Home project image 6 duplicate"></div>
+                <div class="marquee-slide"><img src="/Carousel/7.jpeg" alt="Home project image 7 duplicate"></div>
+                <div class="marquee-slide"><img src="/Carousel/8.jpg" alt="Home project image 8 duplicate"></div>
+            </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 3. CORE SERVICES SECTION -->
     <main class="container">
@@ -644,125 +664,34 @@ body {
         <p style="font-size: 0.75rem; margin-top: 0.5rem; color: #64748b;">All smart home device integrations and plumbing/lighting fixture swaps are aesthetic, component-level replacements of existing systems.</p>
     </footer>
 
-    
-
     <script>
-  (function() {
-    const carouselFolder = './Carousel';
-    const allowedExtensions = ['.jpg', '.jpeg', '.png']; 
-    const track = document.getElementById('dynamic-marquee-track');
-    
-    let currentNumber = 1;
-    let imagesFound = [];
+        const marqueeTrack = document.querySelector('.marquee-track');
+        const marqueeSlides = Array.from(document.querySelectorAll('.marquee-slide'));
 
-    function tryLoadingImage(extensionIndex) {
-      if (extensionIndex >= allowedExtensions.length) {
-        waitForImagesToRender();
-        return;
-      }
+        if (marqueeTrack && marqueeSlides.length) {
+            const totalWidth = marqueeSlides.reduce((sum, slide) => sum + slide.getBoundingClientRect().width, 0);
+            const firstCloneSet = marqueeSlides.map(slide => slide.cloneNode(true));
+            firstCloneSet.forEach(clone => marqueeTrack.appendChild(clone));
 
-      const currentExt = allowedExtensions[extensionIndex];
-      const img = new Image();
-      img.src = `${carouselFolder}/${currentNumber}${currentExt}`;
+            let currentPosition = 0;
+            const speed = 0.4;
 
-      img.onload = function() {
-        imagesFound.push(img.src);
-        currentNumber++;
-        tryLoadingImage(0); 
-      };
+            function animate() {
+                currentPosition -= speed;
+                const effectiveWidth = marqueeTrack.scrollWidth / 2;
 
-      img.onerror = function() {
-        tryLoadingImage(extensionIndex + 1); 
-      };
-    }
+                if (Math.abs(currentPosition) >= effectiveWidth) {
+                    currentPosition = 0;
+                }
 
-    function waitForImagesToRender() {
-      if (imagesFound.length === 0) return;
+                marqueeTrack.style.transform = `translateX(${currentPosition}px)`;
+                requestAnimationFrame(animate);
+            }
 
-      let loadedCount = 0;
-      const loadedImgElements = [];
-
-      imagesFound.forEach(src => {
-        const img = new Image();
-        img.src = src;
-        img.style.height = "250px"; 
-        img.style.width = "auto";
-        img.style.objectFit = "cover";
-        img.style.borderRadius = "8px";
-        img.alt = "Home project image";
-
-        img.onload = function() {
-          loadedCount++;
-          loadedImgElements.push(img);
-          if (loadedCount === imagesFound.length) {
-            buildPerfectMarquee(loadedImgElements);
-          }
-        };
-        img.onerror = function() {
-          loadedCount++;
-          if (loadedCount === imagesFound.length) {
-            buildPerfectMarquee(loadedImgElements);
-          }
-        };
-      });
-    }
-
-    function buildPerfectMarquee(readyImages) {
-      track.innerHTML = '';
-
-      // Create a master container for a single iteration pass
-      const baseGroup = document.createElement('div');
-      baseGroup.style.display = 'flex';
-      baseGroup.style.gap = '20px';
-      baseGroup.style.paddingRight = '20px';
-
-      readyImages.forEach(img => baseGroup.appendChild(img));
-      track.appendChild(baseGroup);
-
-      // CRITICAL STEP: Measure the base layout width
-      const groupWidth = baseGroup.getBoundingClientRect().width;
-      const screenWidth = window.innerWidth;
-
-      // Automatically calculate how many tracks we need to safely fill the viewport width twice
-      // If photos are few, this multiplies the tracks up to 3, 4, or more dynamically.
-      const tracksNeeded = Math.max(2, Math.ceil((screenWidth * 2) / groupWidth));
-
-      // Append the extra copies needed to seal visual breaks
-      for (let i = 1; i < tracksNeeded; i++) {
-        const clone = baseGroup.cloneNode(true);
-        if (i > 0) clone.setAttribute('aria-hidden', 'true');
-        track.appendChild(clone);
-      }
-
-      // Calculate translation parameters safely based on the number of groups rendered
-      const translationPercentage = -(100 / tracksNeeded);
-
-      const styleId = 'marquee-runtime-styles';
-      let styleTag = document.getElementById(styleId);
-      if (!styleTag) {
-        styleTag = document.createElement('style');
-        styleTag.id = styleId;
-        document.head.appendChild(styleTag);
-      }
-      
-      styleTag.innerHTML = `
-        @keyframes dynamicScrollLoop {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(${translationPercentage}%); }
+            marqueeTrack.style.transform = 'translateX(0)';
+            requestAnimationFrame(animate);
         }
-        #dynamic-marquee-track {
-          animation: dynamicScrollLoop 30s linear infinite;
-        }
-        .dynamic-marquee-wrapper:hover #dynamic-marquee-track {
-          animation-play-state: paused;
-        }
-      `;
-    }
-
-    tryLoadingImage(0);
-  })();
-</script>
-
+    </script>
 
 </body>
 </html>
