@@ -664,34 +664,7 @@ body {
         <p style="font-size: 0.75rem; margin-top: 0.5rem; color: #64748b;">All smart home device integrations and plumbing/lighting fixture swaps are aesthetic, component-level replacements of existing systems.</p>
     </footer>
 
-    <script>
-        const marqueeTrack = document.querySelector('.marquee-track');
-        const marqueeSlides = Array.from(document.querySelectorAll('.marquee-slide'));
-
-        if (marqueeTrack && marqueeSlides.length) {
-            const totalWidth = marqueeSlides.reduce((sum, slide) => sum + slide.getBoundingClientRect().width, 0);
-            const firstCloneSet = marqueeSlides.map(slide => slide.cloneNode(true));
-            firstCloneSet.forEach(clone => marqueeTrack.appendChild(clone));
-
-            let currentPosition = 0;
-            const speed = 0.4;
-
-            function animate() {
-                currentPosition -= speed;
-                const effectiveWidth = marqueeTrack.scrollWidth / 2;
-
-                if (Math.abs(currentPosition) >= effectiveWidth) {
-                    currentPosition = 0;
-                }
-
-                marqueeTrack.style.transform = `translateX(${currentPosition}px)`;
-                requestAnimationFrame(animate);
-            }
-
-            marqueeTrack.style.transform = 'translateX(0)';
-            requestAnimationFrame(animate);
-        }
-    </script>
+    
 
 </body>
 </html>
