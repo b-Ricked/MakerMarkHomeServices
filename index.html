@@ -25,6 +25,25 @@
   cursor: pointer;
 }
 
+.expand-btn {
+   display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #25D366;
+            color: #ffffff;
+            border: 2px solid #25D366;
+            border-radius: 6px;
+            padding: 0.1rem 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+            margin-top: 1rem;
+            display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* The darkened background overlay */
 .contact-modal-overlay {
   display: none; /* Hidden by default */
@@ -196,6 +215,11 @@
   /* --- FIX: Pull the bottom text up slightly --- */
   margin-top: -1px; 
   line-height: 1.1;
+}
+
+.extra-services {
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
 }
 
         /* Hero Section */
@@ -727,15 +751,36 @@ body {
 <div class="service-grid">
 
   <!-- 📦 CARD 1 WRAPPER -->
-  <div class="service-card">
-    <h3>Smart Home & Security</h3>
-    <ul>
-      <li>Video Doorbells & Smart Locks</li>
-      <li>Wireless Security Camera Mounts</li>
-      <li>Smart Thermostat Upgrades</li>
-      <li>TV Mounting & Wire Management</li>
-    </ul>
-  </div> <!-- CLOSE CARD 1 -->
+ <div class="service-card">
+  <h3>Smart Home & Security</h3>
+  <ul>
+    <li>Video Doorbells & Smart Locks</li>
+    <li>Wireless Security Camera Mounts</li>
+    <li>Smart Thermostat Upgrades</li>
+  </ul>
+
+  <ul class="extra-services" hidden>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+  </ul>
+  <button class="expand-btn">Show More</button>
+</div> <!-- CLOSE CARD 1 -->
 
   <!-- 📦 CARD 2 WRAPPER -->
   <div class="service-card">
@@ -744,8 +789,29 @@ body {
       <li>Correcting Sagging & Sticking Doors</li>
       <li>Lockset & Deadbolt Hardware Swaps</li>
       <li>New Storm Door Installations</li>
-      <li>Energy-Saving Weatherstripping Wraps</li>
     </ul>
+
+    <ul class="extra-services" hidden>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+  </ul>
+  <button class="expand-btn">Show More</button>
   </div> <!-- CLOSE CARD 2 -->
 
   <!-- 📦 CARD 3 WRAPPER -->
@@ -755,7 +821,28 @@ body {
       <li>Aesthetic Faucet Replacements</li>
       <li>Ceiling Fan & Light Fixture Swaps</li>
       <li>Small Hole Drywall & Plaster Patching</li>
-      <li>Bathroom Safety Grab Bar Packages</li>
+      
+      <ul class="extra-services" hidden>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+    <li>Smart Thermostat Upgrades</li>
+    <li>TV Mounting & Wire Management</li>
+  </ul>
+  <button class="expand-btn">Show More</button>
     </ul>
   </div> <!-- CLOSE CARD 3 -->
 
@@ -813,6 +900,8 @@ body {
         }
     </script>
 
+    
+
     <script>
 function toggleContactModal() {
   const modal = document.getElementById('contactModal');
@@ -822,6 +911,21 @@ function toggleContactModal() {
     modal.style.display = 'flex';
   }
 }
+
+document.querySelectorAll('.expand-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const extraContent = button.previousElementSibling;
+    const isHidden = extraContent.hasAttribute('hidden');
+
+    if (isHidden) {
+      extraContent.removeAttribute('hidden');
+      button.textContent = 'Show Less';
+    } else {
+      extraContent.setAttribute('hidden', '');
+      button.textContent = 'Show More';
+    }
+  });
+});
 </script>
 
 </body>
