@@ -44,6 +44,12 @@
   margin-right: auto;
 }
 
+.expand-btn:hover {
+            background-color: #1ebe5d;
+            border-color: #1ebe5d;
+            transform: translateY(-2px);
+        }
+
 /* The darkened background overlay */
 .contact-modal-overlay {
   display: none; /* Hidden by default */
@@ -217,9 +223,21 @@
   line-height: 1.1;
 }
 
-.extra-services {
+/* Container for extra content */
+.extra-services-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease-in-out;
+}
+
+/* Class added when active/expanded */
+.extra-services-wrapper.is-open {
+  grid-template-rows: 1fr;
+}
+
+/* Inner wrapper to handle overflow clipping */
+.extra-services-content {
   overflow: hidden;
-  transition: max-height 0.3s ease-in-out;
 }
 
         /* Hero Section */
@@ -503,7 +521,7 @@
             margin-bottom: 1.5rem;
         }
 
-        .contact-button {
+        .footer-button, .contact-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -519,11 +537,18 @@
             margin-top: 1rem;
         }
 
-        .contact-button:hover {
+        .footer-button:hover, .contact-button:hover {
             background-color: #1ebe5d;
             border-color: #1ebe5d;
             transform: translateY(-2px);
         }
+
+        @media (max-width: 768px) {
+            .footer-button {
+                margin: .5rem 0.9rem;
+            }
+          }
+        
 
         .profile-strip {
             display: flex;
@@ -537,14 +562,15 @@
         }
 
         .profile-photo {
-            width: 110px;
-            height: 110px;
+            width: 140px;
+            height: 140px;
             object-fit: cover;
             border-radius: 50%;
             border: 3px solid var(--primary);
             background-color: #e2e8f0;
             box-shadow: 0 8px 18px rgba(11, 37, 69, 0.12);
             margin-right: 15px; /* Adjust this number to your liking */
+            transform: translateY(8px);
         }
         @media (max-width: 768px) {
   /* Hides the photo on mobile */
@@ -759,26 +785,25 @@ body {
     <li>Smart Thermostat Upgrades</li>
   </ul>
 
-  <ul class="extra-services" hidden>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-  </ul>
+  <!-- Wrapper element for grid transition -->
+  <div class="extra-services-wrapper">
+    <div class="extra-services-content">
+      <ul>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+      </ul>
+    </div>
+  </div>
   <button class="expand-btn">Show More</button>
 </div> <!-- CLOSE CARD 1 -->
 
@@ -791,26 +816,24 @@ body {
       <li>New Storm Door Installations</li>
     </ul>
 
-    <ul class="extra-services" hidden>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-  </ul>
+    <div class="extra-services-wrapper">
+    <div class="extra-services-content">
+      <ul>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+      </ul>
+    </div>
+  </div>
   <button class="expand-btn">Show More</button>
   </div> <!-- CLOSE CARD 2 -->
 
@@ -822,26 +845,24 @@ body {
       <li>Ceiling Fan & Light Fixture Swaps</li>
       <li>Small Hole Drywall & Plaster Patching</li>
       
-      <ul class="extra-services" hidden>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-    <li>Smart Thermostat Upgrades</li>
-    <li>TV Mounting & Wire Management</li>
-  </ul>
+      <div class="extra-services-wrapper">
+    <div class="extra-services-content">
+      <ul>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+        <li>✓ Smart Thermostat Upgrades</li>
+        <li>✓ TV Mounting & Wire Management</li>
+      </ul>
+    </div>
+  </div>
   <button class="expand-btn">Show More</button>
     </ul>
   </div> <!-- CLOSE CARD 3 -->
@@ -859,7 +880,10 @@ body {
                         <h3>Veteran-Owned & Registered</h3>
                         <p>Professional home service contractor with a focus on quality work, honest communication, and dependable repairs for homes across the Cleveland area.</p>
                     </div>
-                    <a href="contact.html" class="contact-button">Contact Me</a>
+                    <div style="display: flex; flex-direction: column; gap: 0rem;">
+                        <a href="FAQ.html" class="footer-button">FAQs & Warranty</a>
+                        <a href="contact.html" class="footer-button">Contact Me</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -914,16 +938,10 @@ function toggleContactModal() {
 
 document.querySelectorAll('.expand-btn').forEach(button => {
   button.addEventListener('click', () => {
-    const extraContent = button.previousElementSibling;
-    const isHidden = extraContent.hasAttribute('hidden');
+    const wrapper = button.previousElementSibling;
+    const isOpen = wrapper.classList.toggle('is-open');
 
-    if (isHidden) {
-      extraContent.removeAttribute('hidden');
-      button.textContent = 'Show Less';
-    } else {
-      extraContent.setAttribute('hidden', '');
-      button.textContent = 'Show More';
-    }
+    button.textContent = isOpen ? 'Show Less' : 'Show More';
   });
 });
 </script>

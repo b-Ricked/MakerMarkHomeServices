@@ -273,7 +273,7 @@
             color: var(--text);
         }
 
-        .contact-button {
+        .footer-button, .contact-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -289,11 +289,17 @@
             margin-top: 1rem;
         }
 
-        .contact-button:hover {
+        .footer-button:hover, .contact-button:hover {
             background-color: #1ebe5d;
             border-color: #1ebe5d;
             transform: translateY(-2px);
         }
+
+        @media (max-width: 768px) {
+            .footer-button {
+                margin: .5rem 0.9rem;
+            }
+          }
 
         footer {
             background-color: var(--primary);
@@ -448,7 +454,7 @@
                         <h3>Veteran-Owned & Registered</h3>
                         <p>Professional home service contractor with a focus on quality work, honest communication, and dependable repairs for homes across the Cleveland area.</p>
                     </div>
-                    <a href="contact.html" class="contact-button">Contact Me</a>
+                    <a href="contact.html" class="footer-button">Contact Me</a>
                 </div>
             </div>
         </div>

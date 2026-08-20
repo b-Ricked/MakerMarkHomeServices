@@ -278,7 +278,7 @@
             color: var(--text);
         }
 
-        .contact-button {
+        .footer-button, .contact-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -293,16 +293,18 @@
             transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
             margin-top: 1rem;
         }
-        @media (max-width: 768px) {
-            .contact-button {
-                margin: .5rem 0.9rem;
-            }
 
-        .contact-button:hover {
+        .footer-button:hover, .contact-button:hover {
             background-color: #1ebe5d;
             border-color: #1ebe5d;
             transform: translateY(-2px);
         }
+
+        @media (max-width: 768px) {
+            .footer-button {
+                margin: .5rem 0.9rem;
+            }
+          }
 
         footer {
             background-color: var(--primary);
@@ -480,8 +482,8 @@
                         <p>Professional home service contractor with a focus on quality work, honest communication, and dependable repairs for homes across the Cleveland area.</p>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0rem;">
-                        <a href="FAQ.html" class="contact-button">FAQs & Warranty</a>
-                        <a href="index.html" class="contact-button">Home Page</a>
+                        <a href="FAQ.html" class="footer-button">FAQs & Warranty</a>
+                        <a href="index.html" class="footer-button">Home Page</a>
                     </div>
                 </div>
             </div>
