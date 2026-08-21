@@ -3,7 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maker Mark Home Services | Smart Home & Precision Repairs</title>
+    <title>Maker Mark Home Services | Smart Home & Quality Repairs</title>
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <!-- Primary Meta Tags -->
+<meta name="title" content="Maker Mark Home Services | Smart Home & Quality Repairs">
+<meta name="description" content="Professional smart home installation and quality repairs for your home.">
+
+<!-- Open Graph / Facebook / Reddit / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourwebsite.com/">
+<meta property="og:title" content="Maker Mark Home Services">
+<meta property="og:description" content="Smart Home & Quality Repairs. Professional service you can trust.">
+<meta property="og:image" content="https://yourwebsite.com/social-share.png">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://yourwebsite.com/">
+<meta property="twitter:title" content="Maker Mark Home Services">
+<meta property="twitter:description" content="Smart Home & Quality Repairs. Professional service you can trust.">
+<meta property="twitter:image" content="https://yourwebsite.com/social-share.png">
+
     <style>
         :root {
             --primary: #0b2545;     /* Exact Logo Navy Blue */
@@ -14,6 +34,22 @@
             --white: #ffffff;
         }
         /* Style for your main page button */
+        .gallery-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Absolute positioning to float the button centered at the bottom of the marquee */
+.see-my-work-btn {
+  position: absolute;
+  bottom: 20px; /* Adjust distance from the bottom edge */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10; /* Ensures the button sits above the scrolling images */
+}
+
 .cta-button {
   background-color: #000; /* Adjust to match your website theme */
   color: #fff;
@@ -23,6 +59,32 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+/* Assign a class to your link in HTML: <a href="#" class="btn-primary">See My Work</a> */
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: #2ECC71; /* Matches your accent green */
+  color: #ffffff;
+  padding: 0.1rem 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 6px;
+  text-align: center;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #27ae60; /* Darker shade on hover */
 }
 
 .expand-btn {
@@ -38,7 +100,7 @@
             text-decoration: none;
             font-size: 1rem;
             transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
-            margin-top: 1rem;
+            
             display: block;
   margin-left: auto;
   margin-right: auto;
@@ -440,7 +502,7 @@
         .container {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 4rem 1.5rem;
+            padding: 1.25rem 1.5rem 4rem;
         }
 
         .section-title {
@@ -766,41 +828,48 @@ body {
                 <div class="marquee-slide"><img src="/Carousel/5.jpg" alt="Home project image 5 duplicate"></div>
                 <div class="marquee-slide"><img src="/Carousel/6.jpg" alt="Home project image 6 duplicate"></div>
                 <div class="marquee-slide"><img src="/Carousel/7.jpg" alt="Home project image 7 duplicate"></div>
+                
             </div>
+           
         </div>
     </div>
+    
+
+    <div class="button-container">
+  <a href="contact.html" class="btn-primary">See My Work</a>
+  </div>
+  
+</div>
 
     <!-- 3. CORE SERVICES SECTION -->
     <main class="container">
-        
+    
+      
 
 <div class="service-grid">
+  
 
   <!-- 📦 CARD 1 WRAPPER -->
  <div class="service-card">
-  <h3>Smart Home & Security</h3>
+  <h3>Home Safety & Repairs</h3>
   <ul>
-    <li>Video Doorbells & Smart Locks</li>
-    <li>Wireless Security Camera Mounts</li>
-    <li>Smart Thermostat Upgrades</li>
+    <li>Toilet Repair & Replacement</li>
+    <li>Independent Living Upgrades</li>
+    <li>Door Repair & Replacement </li>
   </ul>
 
   <!-- Wrapper element for grid transition -->
   <div class="extra-services-wrapper">
     <div class="extra-services-content">
       <ul>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
+        <li>Smoke, CO, & Flood Detectors</li>
+        <li>Replace Outlets & Switches</li>
+        <li>Garbage Disposals Repairs</li>
+        <li>Sink & Tub Re-Caulking</li>
+        <li>Grab Bars & Safety Hardware</li>
+        <li>Child & Pet Safety Proofing</li>
+        <li>Fence & Gate Repairs</li>
+        
       </ul>
     </div>
   </div>
@@ -809,28 +878,24 @@ body {
 
   <!-- 📦 CARD 2 WRAPPER -->
   <div class="service-card">
-    <h3>Precision Door Repair</h3>
+    <h3>Security & Automation</h3>
     <ul>
-      <li>Correcting Sagging & Sticking Doors</li>
-      <li>Lockset & Deadbolt Hardware Swaps</li>
-      <li>New Storm Door Installations</li>
+      <li>Smart Thermostat Instalation</li>
+      <li>Doorbells & Security Cameras</li>
+      <li>Automated Garden Irrigation</li>
     </ul>
 
     <div class="extra-services-wrapper">
     <div class="extra-services-content">
       <ul>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
+        <li>Smart locks & Lighting</li>
+        <li>Floodlights & Motion Sensors</li>
+        <li>Automated Gates & Garage Doors</li>
+        <li>Home Tech & Wi-Fi Setup</li>
+        <li>3D Printing & CAD Design</li>
+        <li>Smart Switches & Outlets</li>
+        <li>Sound & Entertainment Systems</li>
+        
       </ul>
     </div>
   </div>
@@ -839,27 +904,23 @@ body {
 
   <!-- 📦 CARD 3 WRAPPER -->
   <div class="service-card">
-    <h3>Home Maintenance Swaps</h3>
+    <h3>Listing & Move-In Setup</h3>
     <ul>
-      <li>Aesthetic Faucet Replacements</li>
-      <li>Ceiling Fan & Light Fixture Swaps</li>
-      <li>Small Hole Drywall & Plaster Patching</li>
+      <li>Curb Appeal Enhancements</li>
+      <li>Drywall Patching & Repair</li>
+      <li>Faucet & Fixture Upgrades</li>
       
       <div class="extra-services-wrapper">
     <div class="extra-services-content">
       <ul>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
-        <li>✓ Smart Thermostat Upgrades</li>
-        <li>✓ TV Mounting & Wire Management</li>
+        <li>Cabinet Refresh & Hardware</li>
+        <li>Furniture Assembly</li>
+        <li>Power Washing & Painting</li>
+        <li>Tile Repair & Grout Sealing</li>
+        <li>Trim & Baseboard Touch-Ups</li>
+        <li>TV & Sound Bar Mounting</li>
+        <li>Ceiling Fan Installation</li>
+        
       </ul>
     </div>
   </div>
